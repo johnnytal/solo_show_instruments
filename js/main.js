@@ -155,14 +155,14 @@ function readLight(reading){
                 note++;
             }
     		
-    		currentDur = newLightSfx.totalDuration * 1000;
-    		oneSample = currentDur / 50;
-    		
-    		newFrontSfx.currentTime = oneSample * note;
-    		
-    		if (!newLightSfx.isPlaying){
-    			newLightSfx.play();
-    		}
+			currentDur = newLightSfx.duration * 1000;
+			oneSample = currentDur / 50;
+		
+			newLightSfx.currentTime = parseInt(oneSample * note);
+			
+			if (!newLightSfx.isPlaying){
+				newLightSfx.play();
+			}
     		
 	        debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' = ' + note + ' | (file loaded)';
 	        debug_label.x = game.world.centerX - debug_label.width / 2;
@@ -564,6 +564,7 @@ function handleFile(_what, fileObj) {
 	   var arrayBuffer = this.result;
 	   
 	   useAudio = true;
+	  // debugging();
 	};
 	fileReader.readAsArrayBuffer(fileObj[0]);
 	
@@ -572,4 +573,28 @@ function handleFile(_what, fileObj) {
 	if (_what.id == 'audio_file_light'){
 		newLightSfx.src = url;
 	}
+}
+
+function debugging(){
+	factor = game.rnd.integerInRange(0, 6);
+	
+    if (factor < 4){ // semitone down
+        note--; 
+    }
+    else { // semitone up
+        note++;
+    }
+	
+	currentDur = newLightSfx.duration * 1000;
+	oneSample = currentDur / 50;
+
+	newLightSfx.currentTime = oneSample * note;
+	
+	if (!newLightSfx.isPlaying){
+		newLightSfx.play();
+	}
+	
+	setTimeout(function(){
+		debugging();
+	}, 1000);
 }

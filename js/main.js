@@ -118,9 +118,7 @@ gameMain.prototype = {
 
         watchReading();
     }, 
-    update: function(){
-
-    }
+    update: function(){}
 };
 
 function watchReading(){
@@ -165,6 +163,9 @@ function readLight(reading){
     		if (!newLightSfx.isPlaying){
     			newLightSfx.play();
     		}
+    		
+	        debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' = ' + note + ' | (file loaded)';
+	        debug_label.x = game.world.centerX - debug_label.width / 2;
     		
     		last_frequency = frequency;
     		

@@ -146,12 +146,14 @@ function readLight(reading){
     frequency_check = luminosity * factor;
     frequency_text = "";
     
-    if (Math.abs(frequency_check - last_frequency) > Math.round(25 + (glissandos[glissando] / 6))){
+    if (Math.abs(frequency_check - last_frequency) > Math.round(50 + (glissandos[glissando] / 6))){
     	if (useAudio){
-            if (frequency_check < last_frequency){ // semitone down
+    		killOsc();
+    		
+            if (frequency_check < last_frequency && note > 0){ // semitone down
                 note--; 
             }
-            else if (frequency_check > last_frequency){ // semitone up
+            else if (frequency_check > last_frequency && note < 50){ // semitone up
                 note++;
             }
     		
@@ -164,7 +166,7 @@ function readLight(reading){
 				newLightSfx.play();
 			}
     		
-	        debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' = ' + note + ' | (file loaded)';
+	        debug_label.text = luminosity + ' L * ' + Math.round(factor * 100) / 100 + ' = ' + note + ' * ' + oneSample;
 	        debug_label.x = game.world.centerX - debug_label.width / 2;
     		
     		last_frequency = frequency;
